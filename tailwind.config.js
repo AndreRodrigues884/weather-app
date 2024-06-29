@@ -8,11 +8,6 @@ module.exports = {
       fontFamily: {
        'montserrat': ['Montserrat', 'sans-serif'],
       },
-      fontWeight: {
-        'fira-regular': 400,
-        'fira-medium': 500,
-        'fira-bold': 700,
-      },
     },
   },
   plugins: [

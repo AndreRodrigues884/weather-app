@@ -11,7 +11,6 @@ export const useWeatherStore = defineStore('auth', {
     getters: {
         getCurrentWeather: (state) => {
             if (state.weatherData && state.weatherData.main) {
-                // Convertendo a temperatura de Kelvin para Celsius
                 return state.weatherData.main.temp - 273.15;
             }
             return null;
@@ -28,6 +27,26 @@ export const useWeatherStore = defineStore('auth', {
             }
             return null;
         },
+        getCountryName: (state) => {
+            if (state.weatherData && state.weatherData.sys) {
+                return state.weatherData.sys.country;
+            }
+        },
+        getHumidity: (state) => {
+            if (state.weatherData && state.weatherData.main) {
+                return state.weatherData.main.humidity;
+            }
+        },
+        getVisibility: (state) => {
+            if (state.weatherData && state.weatherData.visibility) {
+                return state.weatherData.visibility / 1000;
+            }
+        },
+        getWindSpeed: (state) => {
+            if (state.weatherData && state.weatherData.wind) {
+                return state.weatherData.wind.speed * 3.6;
+            }
+        }
     },
     actions: {
         async fetchCurrentWeather() {
