@@ -1,11 +1,17 @@
 <script>
 import { useWeatherStore } from '@/stores/store';
 import { changeBackgroundWeather } from '../js/Weather-Card';
-import { onMounted, watch } from 'vue';
+import { ref, onMounted, watch } from 'vue';
+import SideBar from "../components/SideBar.vue";
 
 export default {
+    components: {
+        SideBar,
+    },
     setup() {
         const store = useWeatherStore();
+        const isSidebarOpen = ref(false);
+
         store.fetchCurrentWeather();
 
         onMounted(() => {
@@ -18,8 +24,24 @@ export default {
             changeBackgroundWeather();
         });
 
+        const toggleSidebar = () => {
+            isSidebarOpen.value = !isSidebarOpen.value;
+            if (isSidebarOpen.value) {
+                console.log('Sidebar is now open');
+            } else {
+                console.log('Sidebar is now closed');
+            }
+        };
+
+        const handleSidebarClose = () => {
+            isSidebarOpen.value = false; // Feche a sidebar quando o evento close for emitido
+        };
+
         return {
             store,
+            isSidebarOpen,
+            toggleSidebar,
+            handleSidebarClose,
         };
 
     },
@@ -77,11 +99,14 @@ export default {
                 <p v-else>Carregando Descrição...</p>
             </div>
         </div>
-        <div class="w-full flex justify-end items-end">
+        <div>
+            <SideBar :isOpen="isSidebarOpen" @close="handleSidebarClose" />
+            <div class="w-full flex justify-end items-end"> <!-- icon -->
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="size-6 text-white mr-6 cursor-pointer">
+                stroke="currentColor" class="size-6 text-white mr-6 cursor-pointer" @click="toggleSidebar">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
             </svg>
+        </div><!-- icon -->
         </div>
         <div class="flex justify-center pt-48">
             <div class="w-4/5 border border-white rounded-3xl flex">
@@ -117,22 +142,22 @@ export default {
 }
 
 .veryCold {
-    background-image: url('../assets/images/veryCold.jpeg');
+    background-image: url('../assets/images/veryCold.jpg');
 }
 
 .cold {
-    background-image: url('../assets/images/cold.jpeg');
+    background-image: url('../assets/images/cold.jpg');
 }
 
 .neutral {
-    background-image: url('../assets/images/neutral.jpeg');
+    background-image: url('../assets/images/neutral.jpg');
 }
 
 .hot {
-    background-image: url('../assets/images/hot.jpeg');
+    background-image: url('../assets/images/hot.jpg');
 }
 
 .veryHot {
-    background-image: url('../assets/images/veryHot.jpeg');
+    background-image: url('../assets/images/veryHot.jpg');
 }
 </style>

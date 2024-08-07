@@ -5,7 +5,7 @@ import WeahterCard from "../components/Weahter-Card.vue";
 export default {
   components: {
    Navbar,
-   WeahterCard
+   WeahterCard,
   },
   data() {
     return {
@@ -40,4 +40,4 @@ export default {
 
 <style lang="scss" scoped>
 
-</style>../components/Navbar.vue
+</style>
