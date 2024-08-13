@@ -1,11 +1,13 @@
 <script>
 import Navbar from "../components/Navbar.vue";
-import WeahterCard from "../components/Weahter-Card.vue";
+import WeatherCard from "../components/Weather-Card.vue";
+import Forecast from "../components/ContainerForecast.vue";
 
 export default {
   components: {
    Navbar,
-   WeahterCard,
+   WeatherCard,
+   Forecast,
   },
   data() {
     return {
@@ -32,9 +34,10 @@ export default {
 
    <main>
     <div class="flex justify-center">
-        <WeahterCard></WeahterCard>
+        <WeatherCard></WeatherCard>
     </div>
    </main>
+   <Forecast></Forecast>
    
 </template>
 

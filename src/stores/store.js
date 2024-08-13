@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { getCurrentWeather } from './request';
+import { getCurrentWeather, getForecastHourly } from './request';
 
 export const useWeatherStore = defineStore('auth', {
     state: () => ({
@@ -7,6 +7,8 @@ export const useWeatherStore = defineStore('auth', {
         lat: null,
         lon: null,
         weatherData: null,
+        forecastHourly: null,
+       
     }),
     getters: {
         getCurrentWeather: (state) => {
@@ -46,7 +48,22 @@ export const useWeatherStore = defineStore('auth', {
             if (state.weatherData && state.weatherData.wind) {
                 return state.weatherData.wind.speed * 3.6;
             }
+        },
+        getForecastTemp: (state) => {
+            if (state.forecastHourly && state.forecastHourly.list) {
+                // Obtenha as temperaturas dos primeiros 4 períodos
+                return state.forecastHourly.list.slice(0, 8).map(item => item.main.temp - 273.15);
+            }
+            return [];
+        },
+        getForecastDescription: (state) => {
+            if (state.forecastHourly && state.forecastHourly.list) {
+                // Obtenha as temperaturas dos primeiros 4 períodos
+                return state.forecastHourly.list.slice(0, 8).map(item => item.weather[0].description);
+            }
+            return [];
         }
+        
     },
     actions: {
         async fetchCurrentWeather() {
@@ -77,6 +94,16 @@ export const useWeatherStore = defineStore('auth', {
                 );
             } else {
                 console.error('Geolocalização não é suportada por este navegador.');
+            }
+        },
+        async fetchForecastHourly() {
+            if (this.lat && this.lon) {
+                try {
+                    this.forecastHourly = await getForecastHourly(this.lat, this.lon, this.apiKey);
+                    console.log('Dados forecast:', this.forecastHourly);
+                } catch (error) {
+                    console.error('Erro ao obter dados meteorológicos:', error);
+                }
             }
         },
     }

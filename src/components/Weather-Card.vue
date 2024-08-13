@@ -12,14 +12,12 @@ export default {
         const store = useWeatherStore();
         const isSidebarOpen = ref(false);
 
-        store.fetchCurrentWeather();
-
         onMounted(() => {
+            store.fetchCurrentWeather();
             store.getLocationAndFetchWeather();
         });
 
         watch(() => store.getCurrentWeather, (newVal) => {
-            console.log('Novo valor de temperatura:', newVal);
             localStorage.setItem('CurrentWeather', JSON.stringify(newVal));
             changeBackgroundWeather();
         });
@@ -91,7 +89,7 @@ export default {
 
                 <h1 class="font-montserrat font-semibold text-white text-9xl" v-if="getCurrentWeather">{{
                         getCurrentWeather.toFixed(0) }}°C</h1>
-                <p v-else>Carregando dados meteorológicos...</p>
+                <p v-else>Carregando temperatura...</p>
             </div>
             <div class="flex items-center justify-end w-full">
                 <p class="font-montserrat font-normal text-white text-xl capitalize vertical-lr mr-5"
